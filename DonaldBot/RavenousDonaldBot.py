@@ -19,11 +19,11 @@ def logger(s,message):
 
     log = open(s,'a')
 
-    log.write(str(timecollected)+ "\n") 
+    log.write(message + str(timecollected)+ "\n") 
 
     print(message + str(timecollected))
 
-donaldnew = ('the_donald', 'new', 1000, 'donaldnew.csv', 'donaldarchive.txt')
+donaldnew = ('the_donald', 'new', 100, 'donaldnew.csv', 'donaldarchive.txt')
 
 donaldhot = ('the_donald', 'hot', 100,'hotdonald.csv', 'hotdonaldarchive.txt')
 
@@ -31,6 +31,7 @@ polhot = ('politics', 'hot', 100, 'hotpolitics.csv', 'hotpolarchive.txt')
 
 polnew = ('politics', 'new', 1000, 'newpol.csv', 'newpolarchive.txt')
 
+logger('donaldlog.txt', 'started at: ')
 
 if __name__ == '__main__':
     print('---------------process started------------')
@@ -50,4 +51,4 @@ if __name__ == '__main__':
 
 
 
-logger('donaldlog.txt','logged at: ')
+logger('donaldlog.txt','finished at: ')
