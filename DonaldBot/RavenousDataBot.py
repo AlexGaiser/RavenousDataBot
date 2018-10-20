@@ -45,7 +45,7 @@ def RavenousDataBot(subreddit, sort, limit, csvname, archivename):
 
     import cfg
 
-    import praw, time, pdb, re, os, csv, datetime, csvmaker,sys
+    import praw, time, pdb, re, os, csv, datetime, csvmaker,sys, sqlite3
 
     from csvmaker import csvmaker, archive
 
@@ -69,20 +69,20 @@ def RavenousDataBot(subreddit, sort, limit, csvname, archivename):
 
 
 
-    headers = 'Title, Body, Karma, Date and Time, Subreddit, Post Author, Submission Link, Submission URL, SubmissionID, Top Comment, Top Comment Author, Top Comment Upvotes, Datetime Collected \n' #headers of csv
+    headers = 'Title,Body,Karma,Date and Time,Subreddit,Post Author,Submission Link,Submission URL,SubmissionID,Top Comment,Top Comment Author,Top Comment Upvotes,Datetime Collected\n' #headers of csv
     subreddit = r.subreddit(subreddit)
     
-
+    sub_sort = ''
 
     if sort == "new":
-        sort = subreddit.new(limit = limit)
+        sub_sort = subreddit.new(limit = limit)
         print("new")
     elif sort == "top":
-        sort = subreddit.top(limit = limit)
+        sub_sort = subreddit.top(limit = limit)
     elif sort == "controversial":
-        sort = subreddit.controversial(limit = limit)
+        sub_sort = subreddit.controversial(limit = limit)
     else:
-        sort = subreddit.hot(limit = limit)
+        sub_sort = subreddit.hot(limit = limit)
         "hot"
 
 
@@ -94,7 +94,7 @@ def RavenousDataBot(subreddit, sort, limit, csvname, archivename):
     # for submission in sort(limit=limit):
 
 
-    for submission in sort:
+    for submission in sub_sort:
         print('*************' + str(subreddit) + '  ' + str(sort) + '******************')
 
         Title = submission.title
@@ -145,8 +145,11 @@ def RavenousDataBot(subreddit, sort, limit, csvname, archivename):
         str(top_comment), 
         str(top_comment_author), 
         str(top_comment_upvotes),
-        str(CollectedOn)
+        str(CollectedOn), 
+        str(sort)
          ]
+
+
         #[variables.encode("utf-8") for variables in DataList]
         
         def write_post_to_csv(archivename, csvname):
@@ -173,7 +176,6 @@ def RavenousDataBot(subreddit, sort, limit, csvname, archivename):
             
             elif submission.id in posts_collected:
                 print('already collected')
-
 
 
         write_post_to_csv(archivename, csvname)
